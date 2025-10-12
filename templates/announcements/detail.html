@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ announcement.title }}{% endblock %}
+{% block content %}
+<article class="announcement">
+  <h2>{{ announcement.title }}</h2>
+  <p class="meta">Posted: {{ announcement.created_at|date:'M j, Y H:i' }}</p>
+
+  <div id="excerpt">
+    {{ announcement.content|truncatechars:200|linebreaks }}
+  </div>
+
+  <div id="full" style="display:none;">
+    {{ announcement.content|linebreaks }}
+  </div>
+
+  <button id="toggle" aria-expanded="false">Read more</button>
+</article>
+
+<script>
+  (function(){
+    const btn = document.getElementById('toggle');
+    const full = document.getElementById('full');
+    const excerpt = document.getElementById('excerpt');
+
+    btn.addEventListener('click', function(){
+      if (full.style.display === 'none') {
+        full.style.display = 'block';
+        excerpt.style.display = 'none';
+        btn.textContent = 'Show less';
+        btn.setAttribute('aria-expanded','true');
+      } else {
+        full.style.display = 'none';
+        excerpt.style.display = 'block';
+        btn.textContent = 'Read more';
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+  })();
+</script>
+{% endblock %}
